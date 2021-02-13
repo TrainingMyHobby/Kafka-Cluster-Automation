@@ -1,42 +1,5 @@
 ---
-  # https://www.middlewareinventory.com/blog/run-ansible-playbook-locally/#Method1_Specify_Localhost_in_your_hosts_directive_of_your_playbook
-  - name: AWS EC2 Instances setup - Zookeeper instances creation instances_setup_zookeeper {{ instances_setup_zookeeper }}
-    hosts: localhost
-    vars:
-      instances_setup_zookeeper: false
-      instance_tags_env: zookeeper
-    connection: local
-    become: yes
-    gather_facts: false
-    tags: [ 'never', 'aws_ec2_instances_setup_zookeeper' ]
-    tasks:
-      - name: AWS EC2 Launching AWS instance using Ansible for Zookeeper host {{ item }}
-        when: aws_ec2_instances_setup_zookeeper | bool
-        ec2:
-          # state: present
-          assign_public_ip: yes
-          instance_type: t2.micro
-          image: "{{ hostvars[item].host_image_id }}"
-          region: "{{ hostvars[item].host_region_id }}"
-          key_name: "{{ hostvars[item].host_keypair_name }}"
-          wait: yes
-          # group: Ansible
-          # count: 1
-          # https://github.com/ansible/ansible-modules-core/issues/1009
-          instance_tags:
-            purpose: "{{ instance_tags_purpose }}"
-            Env: "{{ instance_tags_env }}"
-            Name: "{{ instance_tags_env }}-{{ item }}"
-          exact_count: 1
-          count_tag:
-            purpose: "{{ instance_tags_purpose }}"
-            Env: "{{ instance_tags_env }}"
-            Name: "{{ instance_tags_env }}-{{ item }}"
-          vpc_subnet_id: "{{ hostvars[item].host_subnent_id }}"
-          aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
-          aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
-        with_items: "{{ groups['zookeeper'] }}"
-        tags: [ 'aws_ec2_instance_create_zookeeper' ]
-      # delegate_to: 127.0.0.1
+  - import_playbook: ec2/01-ec2-zookeeper-chorum.yaml
+    when: instances_setup_zookeeper | bool
 
       

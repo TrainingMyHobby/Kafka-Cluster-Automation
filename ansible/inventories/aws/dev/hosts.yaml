@@ -11,6 +11,7 @@
       ansible_ssh_private_key_file: ~/ansible-kafka-cluster-setup-keypair.pem
       instance_tags_purpose: cloudera-mastery
       instance_tags_env: undefined_instance_tags_env
+      instances_setup_zookeeper: false
 
   zookeeper:
     vars:
