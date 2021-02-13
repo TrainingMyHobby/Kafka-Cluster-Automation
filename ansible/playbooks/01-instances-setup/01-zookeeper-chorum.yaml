@@ -1,6 +1,6 @@
 ---
   # https://www.middlewareinventory.com/blog/run-ansible-playbook-locally/#Method1_Specify_Localhost_in_your_hosts_directive_of_your_playbook
-  - name: Instances setup - Zookeeper instances creation instances_setup_zookeeper {{ instances_setup_zookeeper }}
+  - name: AWS EC2 Instances setup - Zookeeper instances creation instances_setup_zookeeper {{ instances_setup_zookeeper }}
     hosts: localhost
     vars:
       instances_setup_zookeeper: false
@@ -8,10 +8,10 @@
     connection: local
     become: yes
     gather_facts: false
-    tags: [ 'never', 'instances_setup_zookeeper' ]
+    tags: [ 'never', 'aws_ec2_instances_setup_zookeeper' ]
     tasks:
-      - name: Launching AWS instance using Ansible for Zookeeper host {{ item }}
-        when: instances_setup_zookeeper | bool
+      - name: AWS EC2 Launching AWS instance using Ansible for Zookeeper host {{ item }}
+        when: aws_ec2_instances_setup_zookeeper | bool
         ec2:
           # state: present
           assign_public_ip: yes
@@ -36,7 +36,7 @@
           aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
           aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
         with_items: "{{ groups['zookeeper'] }}"
-        tags: [ 'zookeeper_instance_create' ]
+        tags: [ 'aws_ec2_instance_create_zookeeper' ]
       # delegate_to: 127.0.0.1
 
       
