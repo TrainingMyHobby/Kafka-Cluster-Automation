@@ -1,22 +1,32 @@
 ---
   all:
     vars:
-      ansible_connection: ssh
-      ansible_user: ubuntu
-      ansible_become: true
-      ansible_ssh_private_key_file: ec2-kafka-cluster.pem
+      ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+      host_image_id: ami-0739f8cdb239fe9ae
+      host_region_id: us-east-1
+      host_keypair_name: ansible-kafka-cluster-setup-keypair
+      # ansible_connection: ssh
+      # ansible_user: ubuntu
+      # ansible_become: true
+      ansible_ssh_private_key_file: ~/ansible-kafka-cluster-setup-keypair.pem
+      instance_tags_purpose: cloudera-mastery
+      instance_tags_env: undefined_instance_tags_env
 
   zookeeper:
     vars:
       zookeeper_user: zookeeper
       zookeeper_group: zookeeper
+      instance_tags_env: zookeeper
     hosts:
       ec2-zookeeper1:
         zookeeper_id: 1
+        host_subnent_id: subnet-0b4610882f095622b
       ec2-zookeeper2:
         zookeeper_id: 2
+        host_subnent_id: subnet-013372298bebb6401
       ec2-zookeeper3:
         zookeeper_id: 3
+        host_subnent_id: subnet-0b48a4f6e35d94048
 
   kafka_broker:
     vars:
@@ -48,4 +58,7 @@
       kafka_connect_group: kafkaconnect
     hosts:
       ec2-kafka-connect:
-        
+
+  kafka_cluster_control_host:
+      hosts:
+        localhost
