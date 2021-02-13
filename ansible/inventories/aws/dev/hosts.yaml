@@ -38,9 +38,9 @@
           replica.selector.class: org.apache.kafka.common.replica.RacsAwareReplicaSelector
       ec2-kafka-broker3:
         broker_id: 3
-          kafka_broker_custom_properties:
-            broker.rack: us-east-1c
-            replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
+        kafka_broker_custom_properties:
+          broker.rack: us-east-1c
+          replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
 
   kafka_connect:
     vars:
