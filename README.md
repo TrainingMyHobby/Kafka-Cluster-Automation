@@ -6,11 +6,15 @@ Apache Kafka cluster setup automation using Ansible, Terraform, CloudFormation
 
 1. ./ansible-wrapper.sh all --list-hosts
 
-2. EXTRA_TAGS_VALUE=aws_ec2_instances_setup_zookeeper EXTRA_VARS_VALUE=" instances_setup_zookeeper=true aws_ec2_instances_setup_zookeeper=false " ./ansible-playbook-wrapper.sh playbooks/01-instances-setup/01-zookeeper-chorum.yaml 
+2. EXTRA_TAGS_VALUE=aws_ec2_instances_setup_zookeeper EXTRA_VARS_VALUE=" instances_setup_zookeeper=true aws_ec2_instances_setup_zookeeper=false " ./ansible-playbook-wrapper.sh playbooks/01-instances-create/01-zookeeper-chorum.yaml 
 
 NOTE: Intentially setting aws_ec2_instances_setup_zookeeper=false and I expected the developer / administrator executing the above command to manually set the value to aws_ec2_instances_setup_zookeeper=true
 Reason for the above is to prevent unnecessary AWS EC2 instances creation while learning this code or code documentation.
 So, if you want zookeeper intances to be created you need to manually set aws_ec2_instances_setup_zookeeper=true before running the command
+
+3. EXTRA_TAGS_VALUE=aws_ec2_instances_setup_kafka,instances_setup_kafka EXTRA_VARS_VALUE=" instances_setup_kafka=true aws_ec2_instances_setup_kafka=false " ./ansible-playbook-wrapper.sh playbooks/01-instances-create/02-kafka-instances.yaml
+
+EXTRA_TAGS_VALUE=aws_ec2_instances_setup_kafka, EXTRA_VARS_VALUE=" instances_setup_kafka=true aws_ec2_instances_setup_kafka=false " ./ansible-playbook-wrapper.sh playbooks/01-instances-create/02-kafka-instances.yaml
 
 https://github.com/ansible/ansible-modules-core/issues/1009
 Above link  provides solution to prevent EC2 instances re-creating if we run the same Ansible task again and again "AWS ec2 module - re-run of playbook creates new instances"

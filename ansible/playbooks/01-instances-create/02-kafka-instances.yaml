@@ -1,0 +1,18 @@
+---
+  - name: Instances Create Kafka Instances creation
+    hosts: localhost
+    connection: local
+    gather_facts: false
+    vars:
+      instances_setup_kafka: false
+      aws_ec2_instances_setup_kafka: false
+      instance_tags_env: kafka
+    tags: [ 'never', 'instances_setup_kafka' ]
+    tasks:
+      - name: Kafka instance create AWS EC2
+        include: ../environments/aws/01-instances-setup/01-ec2-kafka.yaml
+        when: instances_setup_kafka and aws_ec2_instances_setup_kafka
+        with_items: "{{ groups['kafka_broker'] }}"
+        loop_control:
+          loop_var: kafka_host
+        tags: [ 'never', 'aws_ec2_instances_setup_kafka' ]

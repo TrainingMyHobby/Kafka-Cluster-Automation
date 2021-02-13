@@ -12,11 +12,17 @@
       instance_tags_purpose: cloudera-mastery
       instance_tags_env: undefined_instance_tags_env
       instances_setup_zookeeper: false
+      host_subnent_id: subnet-0b4610882f095622b
+      zookeeper_user: zookeeper
+      zookeeper_group: zookeeper
+      kafka_broker_user: kafkaborker
+      kafka_broker_group: kafkabroker
+      kafka_broker:
+        data_dir:
+          - /var/lib/kafka/data
 
   zookeeper:
     vars:
-      zookeeper_user: zookeeper
-      zookeeper_group: zookeeper
       instance_tags_env: zookeeper
     hosts:
       ec2-zookeeper1:
@@ -31,26 +37,25 @@
 
   kafka_broker:
     vars:
-      kafka_broker_user: kafkaborker
-      kafka_broker_group: kafkabroker
-      kafka_broker:
-        data_dir:
-          - /var/lib/kafka/data
+      instance_tags_env: kafka
     hosts:
       ec2-kafka-broker1:
         broker_id: 1
         kafka_broker_custom_properties:
           brocker.rack: us-east-1a
+          host_subnent_id: subnet-0b4610882f095622b
           replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
       ec2-kafka-broker2:
         broker_id: 2
         kafka_broker_custom_properties:
           broker.rack: us-east-1b
+          host_subnent_id: subnet-013372298bebb6401
           replica.selector.class: org.apache.kafka.common.replica.RacsAwareReplicaSelector
       ec2-kafka-broker3:
         broker_id: 3
         kafka_broker_custom_properties:
           broker.rack: us-east-1c
+          host_subnent_id: subnet-0b48a4f6e35d94048
           replica.selector.class: org.apache.kafka.common.replica.RackAwareReplicaSelector
 
   kafka_connect:
