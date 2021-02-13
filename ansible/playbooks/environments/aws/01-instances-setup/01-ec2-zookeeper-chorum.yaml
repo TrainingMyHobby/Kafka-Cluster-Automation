@@ -11,7 +11,7 @@
     tags: [ 'never', 'aws_ec2_instances_setup_zookeeper' ]
     tasks:
       - name: AWS EC2 Launching AWS instance using Ansible for Zookeeper host {{ item }}
-        when: aws_ec2_instances_setup_zookeeper | bool
+        when: instances_setup_zookeeper and aws_ec2_instances_setup_zookeeper | bool
         ec2:
           # state: present
           assign_public_ip: yes
