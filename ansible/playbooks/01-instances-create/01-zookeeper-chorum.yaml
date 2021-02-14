@@ -16,11 +16,5 @@
         loop_control:
           loop_var: zookeeper_host
 
-  - name: Ping newly created hosts
-    hosts: dynamic_hosts
-    tasks:
-      - ping:
-
-
 
       

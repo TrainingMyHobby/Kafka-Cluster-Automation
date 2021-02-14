@@ -39,15 +39,7 @@
     # delegate_to: 127.0.0.1
   register: ec2
 
-- name: print ec2
-  debug: var=ec2
-
-- name: print ec2.instances public_ip
-  debug: var="{{ item }}"
-  with_items: "{{ ec2.instances }}"
-
-  # https://github.com/chrismeyersfsu/playbook-ec2_properties/blob/master/new_group.yml
-
+# https://github.com/chrismeyersfsu/playbook-ec2_properties/blob/master/new_group.yml
 # https://www.reddit.com/r/ansible/comments/dcb99c/class_dict_variable_is_not_defined/
 - name: Wait for SSH {{ zookeeper_host }}
   wait_for:
@@ -60,25 +52,18 @@
   with_items: "{{ ec2.instances }}"
   when: aws_ec2_instances_setup_zookeeper
 
-- name: Wait a little longer for centos
+- name: Wait a little longer for centos {{ zookeeper_host }}
   pause: seconds=20
   with_items: "{{ ec2.instances }}"
   when: aws_ec2_instances_setup_zookeeper
 
-
-- name: Add hosts group temporary inventory group with pem path {{ zookeeper_host }}
-  add_host:
-    name: "{{ item['public_ip']  }}"
-    groups: dynamic_hosts
-    ansible_ssh_host: "{{ item['public_ip']  }}"
-    # ansible_ssh_private_key_file: '{{ ansible_ssh_private_key_file }}'
-    ansible_ssh_user: "{{ hostvars[zookeeper_host].host_ssh_user }}"
-    ec2_vars: "{{ item }}"
-    ec2_instance_ids: "{{ ec2['instance_ids']  }}"
-  # with_indexed_items: ec2_instances
+- name: print ec2.instances public_ip {{ zookeeper_host }}
+  debug: "{{ zookeeper_host }} Public IP is {{ item['public_ip'] }}"
   with_items: "{{ ec2.instances }}"
   when: aws_ec2_instances_setup_zookeeper
 
 - name: AWS EC2 Zookeeper END {{ zookeeper_host }}
   set_fact: 
-    greeting: "Completed creating {{ zookeeper_host }}!"
+    "{{zookeeper_host}}_pupblic_ip": "{{ item['public_ip'] }}!"
+  with_items: "{{ ec2.instances }}"
+  when: aws_ec2_instances_setup_zookeeper
