@@ -5,6 +5,8 @@
       host_image_id: ami-0739f8cdb239fe9ae
       host_region_id: us-east-1
       host_keypair_name: ansible-kafka-cluster-setup-keypair
+      host_sec_group_id: sg-0b37177cd70a71b61
+      host_ssh_user: "ubuntu"
       # ansible_connection: ssh
       # ansible_user: ubuntu
       # ansible_become: true
@@ -15,12 +17,16 @@
       host_subnent_id: subnet-0b4610882f095622b
       zookeeper_user: zookeeper
       zookeeper_group: zookeeper
+      instance_tags_env_zookeeper: zookeeper
+      instance_tags_env_kafka: kafka
       kafka_broker_user: kafkaborker
       kafka_broker_group: kafkabroker
       kafka_broker:
         data_dir:
           - /var/lib/kafka/data
 
+  dynamic_hosts:
+    
   zookeeper:
     vars:
       instance_tags_env: zookeeper
@@ -28,12 +34,6 @@
       ec2-zookeeper1:
         zookeeper_id: 1
         host_subnent_id: subnet-0b4610882f095622b
-      ec2-zookeeper2:
-        zookeeper_id: 2
-        host_subnent_id: subnet-013372298bebb6401
-      ec2-zookeeper3:
-        zookeeper_id: 3
-        host_subnent_id: subnet-0b48a4f6e35d94048
 
   kafka_broker:
     vars:

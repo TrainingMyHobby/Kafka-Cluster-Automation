@@ -1,12 +1,15 @@
 # Kafka-Cluster-Automation
 Apache Kafka cluster setup automation using Ansible, Terraform, CloudFormation
 
+https://github.com/chrismeyersfsu/playbook-ec2_properties/blob/master/new_group.yml
 
 # Ansible Common Commands
 
 1. ./ansible-wrapper.sh all --list-hosts
 
 2. EXTRA_TAGS_VALUE=aws_ec2_instances_setup_zookeeper EXTRA_VARS_VALUE=" instances_setup_zookeeper=true aws_ec2_instances_setup_zookeeper=false " ./ansible-playbook-wrapper.sh playbooks/01-instances-create/01-zookeeper-chorum.yaml 
+
+EXTRA_TAGS_VALUE=instances_setup_zookeeper,aws_ec2_instances_setup_zookeeper EXTRA_VARS_VALUE=" instances_setup_zookeeper=true aws_ec2_instances_setup_zookeeper=true " ./ansible-playbook-wrapper.sh playbooks/01-instances-create/01-zookeeper-chorum.yaml
 
 NOTE: Intentially setting aws_ec2_instances_setup_zookeeper=false and I expected the developer / administrator executing the above command to manually set the value to aws_ec2_instances_setup_zookeeper=true
 Reason for the above is to prevent unnecessary AWS EC2 instances creation while learning this code or code documentation.
