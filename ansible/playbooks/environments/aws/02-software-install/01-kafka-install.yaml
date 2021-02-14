@@ -1,0 +1,14 @@
+- name: STARTED Kafka Install on {{ zookeeper_or_kafka_host }}
+  debug: 
+    msg: "STARTED Kafka Install on host {{ zookeeper_or_kafka_host }}"
+
+- name: Kafka Install - Update all packages to the latest version on {{ zookeeper_or_kafka_host }}
+  apt:
+    upgrade: dist
+    update_cache: yes 
+    force_apt_get: yes 
+    cache_valid_time: 3600
+
+- name: COMPLETED Kafka Install on {{ zookeeper_or_kafka_host }}
+  debug: 
+    msg: "COMPLETED Kafka Install on host {{ zookeeper_or_kafka_host }}"

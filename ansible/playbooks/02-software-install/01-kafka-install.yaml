@@ -1,0 +1,18 @@
+---
+  - name: Software Install Kafka
+    hosts: zookeeper
+    gather_facts: false
+    vars:
+      instances_software_install_kafka: false
+      aws_ec2_instances_software_intall_kafka: false
+    tags: [ 'never', 'aws_ec2_instances_software_intall_kafka' ]
+    tasks:
+      - name: inventory_hostname
+        debug: 
+          msg:   " {{ inventory_hostname }} "
+
+      - name: Zookeeper Install on AWS EC2 {{ inventory_hostname }}
+        include: ../environments/aws/02-software-install/01-kafka-install.yaml
+        vars:
+          zookeeper_or_kafka_host: hostvars[inventory_hostname]['hostname']
+        when: instances_software_install_kafka and aws_ec2_instances_software_intall_kafka

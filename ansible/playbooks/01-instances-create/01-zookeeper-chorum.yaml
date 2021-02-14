@@ -5,6 +5,7 @@
     vars:
       instances_setup_zookeeper: false
       aws_ec2_instances_setup_zookeeper: false
+      # ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
       instance_tags_env: zookeeper
     gather_facts: false
     tags: [ 'never', 'instances_setup_zookeeper' ]

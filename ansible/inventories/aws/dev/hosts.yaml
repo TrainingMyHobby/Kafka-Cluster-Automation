@@ -1,16 +1,12 @@
 ---
   all:
     vars:
-      ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+      # ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
       host_image_id: ami-0739f8cdb239fe9ae
       host_region_id: us-east-1
       host_keypair_name: ansible-kafka-cluster-setup-keypair
       host_sec_group_id: sg-0b37177cd70a71b61
       host_ssh_user: "ubuntu"
-      # ansible_connection: ssh
-      # ansible_user: ubuntu
-      # ansible_become: true
-      ansible_ssh_private_key_file: ~/ansible-kafka-cluster-setup-keypair.pem
       instance_tags_purpose: cloudera-mastery
       instance_tags_env: undefined_instance_tags_env
       instances_setup_zookeeper: false
@@ -25,15 +21,36 @@
         data_dir:
           - /var/lib/kafka/data
 
+  localhosts:
+    vars:
+      ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+    hosts:
+      localhost:
+
+  local:
+    vars:
+      ansible_python_interpreter: /Library/Frameworks/Python.framework/Versions/3.7/bin/python3
+
   dynamic_hosts:
     
   zookeeper:
     vars:
       instance_tags_env: zookeeper
+      ansible_connection: ssh
+      ansible_user: ubuntu
+      ansible_become: true
+      ansible_port: 22
+      ansible_ssh_private_key_file: ~/ansible-kafka-cluster-setup-keypair.pem
+      user: "{{ host_ssh_user }}"
+      become: true
+      become_method: sudo
+      become_user: "{{ host_ssh_user }}"
     hosts:
       ec2-zookeeper1:
         zookeeper_id: 1
         host_subnent_id: subnet-0b4610882f095622b
+        # inventory_hostname: ec2-a-b-c-d.compute-1.amazonaws.com
+        # ansible_host: a.b.c.d
 
   kafka_broker:
     vars:
